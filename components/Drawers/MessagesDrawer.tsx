@@ -84,7 +84,7 @@ export const MessagesDrawer = ({
       />
 
       <div
-        className={`fixed right-0 top-0 h-full w-[480px] bg-linear-to-br from-cyan-950/95 to-blue-950/95 backdrop-blur-xl border-l border-cyan-500/20 shadow-2xl shadow-cyan-500/10 z-50 transition-transform duration-300 ${
+        className={`fixed right-0 top-0 h-full w-full max-w-[480px] bg-linear-to-br from-cyan-950/95 to-blue-950/95 backdrop-blur-xl border-l border-cyan-500/20 shadow-2xl shadow-cyan-500/10 z-50 transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

@@ -251,7 +251,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!isConnected) return;
-    refreshUser(); // Używamy refreshUser zamiast bezpośredniego axios.get, żeby pobrać oba stany
+    refreshUser();
   }, [isConnected]);
 
   const handleDisconnect = async () => {
@@ -343,7 +343,6 @@ export default function Home() {
 
   const refreshUser = async () => {
     const wallet = getSolanaWallet();
-    // Safety check na wypadek braku portfela
     if (!wallet || !wallet.publicKey) return;
 
     const ata = getAssociatedTokenAddressSync(
@@ -354,7 +353,6 @@ export default function Home() {
       ASSOCIATED_TOKEN_PROGRAM_ID
     );
 
-    // Pobranie salda aplikacji (Baza danych)
     try {
       const balanceResponse = await axios.get("/api/wallet/balance", {
         withCredentials: true,
@@ -365,13 +363,10 @@ export default function Home() {
       console.error("App balance fetch failed", e);
     }
 
-    // Pobranie salda portfela (On-Chain)
     try {
-      // Dodajemy commitment 'confirmed', aby pobrać najświeższy stan
       const account = await getAccount(connection, ata, "confirmed");
       setAvailableBalance(new BN(account.amount));
     } catch (e) {
-      // Jeśli konto tokenowe nie istnieje (np. nowy user przed faucetem), ustawiamy 0 zamiast błędu
       console.log("Token account fetch failed (likely new user):", e);
       setAvailableBalance(new BN(0));
     }
@@ -416,7 +411,6 @@ export default function Home() {
         },
         { withCredentials: true }
       );
-      // Czekamy chwilę przed odświeżeniem, aby backend zdążył zaktualizować DB
       await sleep(1000);
       await refreshUser();
     };
@@ -447,7 +441,6 @@ export default function Home() {
         },
         { withCredentials: true }
       );
-      // Czekamy na RPC
       await sleep(2000);
       await refreshUser();
     };
@@ -699,9 +692,8 @@ export default function Home() {
         {!isConnected ? (
           <ConnectView setOpen={setOpen} />
         ) : (
-          <div className="flex flex-col items-center w-full px-8">
+          <div className="flex flex-col items-center w-full px-2 sm:px-8">
             <div className="fixed top-8 right-8 z-20 flex items-center gap-3">
-              {/* Opóźniamy odświeżanie po faucecie o 2 sekundy, żeby RPC zdążyło zindeksować */}
               <FaucetButton
                 onSuccess={async () => {
                   await sleep(2000);
@@ -711,7 +703,7 @@ export default function Home() {
               <DisconnectButton handleDisconnect={handleDisconnect} />
             </div>
 
-            <div className="backdrop-blur-xl bg-linear-to-br from-cyan-950/40 to-blue-950/30 p-12 rounded-3xl border border-cyan-500/20 shadow-2xl shadow-cyan-500/10 max-w-2xl w-full">
+            <div className="backdrop-blur-xl bg-linear-to-br from-cyan-950/40 to-blue-950/30 p-6 sm:p-12 rounded-3xl border border-cyan-500/20 shadow-2xl shadow-cyan-500/10 max-w-2xl w-full">
               <BalanceLabel balance={balance ?? "0"} />
               <ActionButtons
                 setDepositModalOpen={setDepositModalOpen}
