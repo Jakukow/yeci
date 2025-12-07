@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { ChatItem } from "../../App";
 import { formatTimestamp } from "../../utils/utils";
+import { ChatItem } from "@/app/page";
 
 interface Message {
   _id: string;
@@ -340,7 +340,7 @@ export const MessagesDrawer = ({
                       msg.kind === "activity"
                         ? "bg-yellow-500/30 text-yellow-100 border border-yellow-400/40"
                         : msg.sender === userAddress
-                        ? "bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
+                        ? "bg-linear-to-r from-cyan-600 to-blue-600 text-white"
                         : "bg-cyan-950/60 text-cyan-100 border border-cyan-500/20"
                     }`}
                   >
