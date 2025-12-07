@@ -2,8 +2,6 @@
 
 Yeci is a modern, full-stack crypto application that combines a Solana wallet interface with social features. Built with **Next.js 15**, it allows users to sign in with their Solana wallets, manage testnet USDC funds, add friends, and chat in real-time.
 
-![YECI App Screenshot](public/vite.svg)
-
 ## ✨ Features
 
 - **🔐 Sign In With Solana (SIWS):** Secure authentication using wallet signatures (Phantom, Backpack) and JWT cookies.
